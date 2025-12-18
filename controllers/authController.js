@@ -28,7 +28,7 @@ const register = async (req, res, next) => {
   }
 };
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
     try {
 
       if (!req.body)
@@ -53,26 +53,24 @@ const login = async (req, res) => {
         next(error);
     }
 }
-export const loginVulnerable = async (req, res) => {
-    const { email } = req.body;
-    // Concaténation directe = DANGER SQL Injection
-    const query = `SELECT id, email FROM users WHERE email = '${email}'`; 
+// export const loginVulnerable = async (req, res) => {
+//     const { email } = req.body;
+//     const query = `SELECT id, email FROM users WHERE email = '${email}'`; 
     
-    try {
-        const [users] = await db.query(query);
-        if (users.length > 0) {
-            console.log('Utilisateur trouvé via injection SQL:', users[0].email);
-            return res.status(200).json({ message: 'Connexion réussie (via faille !)', user: users[0] });
-        }
-        res.status(401).json({ message: 'Identifiants invalides' });
-    } catch (e) {
-        res.status(500).json({ error: e.message });
-    }
-};
-
+//     try {
+//         const [users] = await db.query(query);
+//         if (users.length > 0) {
+//             console.log('Utilisateur trouvé via injection SQL:', users[0].email);
+//             return res.status(200).json({ message: 'Connexion réussie (via faille !)', user: users[0] });
+//         }
+//         res.status(401).json({ message: 'Identifiants invalides' });
+//     } catch (e) {
+//         res.status(500).json({ error: e.message });
+//     }
+// };
 
 export default {
     register,
     login,
-    loginVulnerable
+    // loginVulnerable
 }

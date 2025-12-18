@@ -3,6 +3,8 @@ import userRouter from "../routes/userRoutes.js";
 import postRouter from "../routes/postRoutes.js";
 import authRouter from "../routes/authRoutes.js";
 import { errorHandler } from "../middlewares/errorHandler.js";
+import helmet from "helmet";
+
 
 const app = express();
 app.use(express.json());
@@ -16,5 +18,6 @@ app.use("/api", postRouter);
 app.use("/api", authRouter);
 
 app.use(errorHandler);
+app.use(helmet()); 
 
 export default app;
